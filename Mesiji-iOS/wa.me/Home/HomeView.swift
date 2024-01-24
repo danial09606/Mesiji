@@ -123,7 +123,7 @@ class HomeView: UIView {
         newButton.layer.cornerRadius = 8.0
         newButton.backgroundColor = .blue
         newButton.titleLabel?.textColor = .white
-        newButton.setTitle("Send", for: .normal)
+        newButton.setTitle("Open WhatsApp", for: .normal)
         newButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         return newButton
     }()

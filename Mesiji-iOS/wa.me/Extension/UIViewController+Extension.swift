@@ -13,7 +13,14 @@ extension UIViewController {
     func alertMsg(_ nvc: UINavigationController, message: String){
         let alert = UIAlertController(title: "Mesiji", message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        if message == "Can't open WhatsApp. Please make sure you have installed Whatsapp." {
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "App Store", style: .default, handler: { _ in
+                UIApplication.shared.open(URL(string: "https://apps.apple.com/app/whatsapp-messenger/id310633997")!)
+            }))
+        } else {
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        }
         
         nvc.present(alert, animated: true)
     }

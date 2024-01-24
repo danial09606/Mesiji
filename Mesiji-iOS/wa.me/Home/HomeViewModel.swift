@@ -50,7 +50,7 @@ class HomeViewModel: HomeViewModelType {
                 guard let self, status else { return }
                 self.saveMessageToHistory(phoneNumber: phone.stripped, message: message ?? "")
             }
-        }else{
+        } else{
             showError.accept("Can't open WhatsApp. Please make sure you have installed Whatsapp.")
         }
     }
