@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import DropDown
 import GoogleMobileAds
+import AppTrackingTransparency
 
 class HomeViewController: UIViewController {
     
@@ -151,8 +152,7 @@ class HomeViewController: UIViewController {
     }
     
     private func loadAds() {
-        
-        rootView.bannerView.load(adsRequest)
+        DispatchQueue.main.async { self.rootView.bannerView.load(self.adsRequest) }
         
         GADInterstitialAd.load(withAdUnitID: Constants.Credentials.adsPopupUnitID, request: adsRequest, completionHandler: { [weak self] ad, error in
             
@@ -168,6 +168,18 @@ class HomeViewController: UIViewController {
         })
     }
     
+    private func requestAd() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                if status == .authorized {
+                    self.loadAds()
+                }
+            }
+        } else {
+            self.loadAds()
+        }
+    }
+    
     private func setupAds() {
         
         GADMobileAds.sharedInstance()
@@ -176,7 +188,7 @@ class HomeViewController: UIViewController {
         rootView.bannerView.rootViewController = self
         rootView.bannerView.delegate = self
         
-        loadAds()
+        requestAd()
     }
     
     @objc func doCustomInfo(_ sender: UIBarButtonItem) {
@@ -234,6 +246,6 @@ extension HomeViewController: GADBannerViewDelegate, GADFullScreenContentDelegat
     
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad did dismiss full screen content.")
-        loadAds()
+        requestAd()
     }
 }
